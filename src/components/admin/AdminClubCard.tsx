@@ -38,10 +38,10 @@ export function AdminClubCard({ club }: AdminClubCardProps) {
     const result = await deleteClubAction(club.id);
     setIsDeleting(false);
     if (result.success) {
-      toast({ title: "Club Deleted", description: result.message });
+      toast({ title: "Club Eliminado", description: result.message });
       // router.refresh(); // Or rely on revalidatePath from action
     } else {
-      toast({ variant: "destructive", title: "Deletion Failed", description: result.message });
+      toast({ variant: "destructive", title: "Fallo al Eliminar", description: result.message });
     }
   };
 
@@ -54,39 +54,39 @@ export function AdminClubCard({ club }: AdminClubCardProps) {
       <CardContent className="flex-grow space-y-2 text-sm">
         <div className="flex items-center text-muted-foreground">
           <Users className="h-4 w-4 mr-2 shrink-0" />
-          <span>{totalEnrolled} / {totalCapacity > 0 ? totalCapacity : 'N/A'} enrolled</span>
+          <span>{totalEnrolled} / {totalCapacity > 0 ? totalCapacity : 'N/D'} inscritos</span>
         </div>
         <div className="flex items-center text-muted-foreground">
           <CalendarDays className="h-4 w-4 mr-2 shrink-0" />
-          <span>{club.timeSlots.length} time slot(s)</span>
+          <span>{club.timeSlots.length} horario(s)</span>
         </div>
       </CardContent>
       <CardFooter className="flex justify-end gap-2">
         <AlertDialog>
           <AlertDialogTrigger asChild>
             <Button variant="destructive" size="sm" disabled={isDeleting}>
-              <Trash2 className="h-4 w-4 mr-1" /> Delete
+              <Trash2 className="h-4 w-4 mr-1" /> Eliminar
             </Button>
           </AlertDialogTrigger>
           <AlertDialogContent>
             <AlertDialogHeader>
-              <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+              <AlertDialogTitle>¿Estás seguro?</AlertDialogTitle>
               <AlertDialogDescription>
-                This action cannot be undone. This will permanently delete the club
-                "{club.name}" and all its enrollments.
+                Esta acción no se puede deshacer. Esto eliminará permanentemente el club
+                "{club.name}" y todas sus inscripciones.
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
-              <AlertDialogCancel disabled={isDeleting}>Cancel</AlertDialogCancel>
+              <AlertDialogCancel disabled={isDeleting}>Cancelar</AlertDialogCancel>
               <AlertDialogAction onClick={handleDelete} disabled={isDeleting}>
-                {isDeleting ? "Deleting..." : "Confirm Delete"}
+                {isDeleting ? "Eliminando..." : "Confirmar Eliminación"}
               </AlertDialogAction>
             </AlertDialogFooter>
           </AlertDialogContent>
         </AlertDialog>
         <Button asChild variant="outline" size="sm">
           <Link href={Routes.ADMIN_CLUBS_EDIT(club.id)}>
-            <Edit className="h-4 w-4 mr-1" /> Edit
+            <Edit className="h-4 w-4 mr-1" /> Editar
           </Link>
         </Button>
       </CardFooter>

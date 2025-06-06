@@ -22,7 +22,7 @@ interface StudentClubCardProps {
 }
 
 function formatTimeSlots(timeSlots: TimeSlot[]): string {
-  if (!timeSlots || timeSlots.length === 0) return "No schedule available.";
+  if (!timeSlots || timeSlots.length === 0) return "No hay horario disponible.";
   // Show first 1-2 slots or a summary
   const summary = timeSlots.slice(0, 2).map(ts => `${ts.dayOfWeek.substring(0,3)} ${ts.startTime}-${ts.endTime}`).join(', ');
   return timeSlots.length > 2 ? `${summary}, ...` : summary;
@@ -63,20 +63,20 @@ export function StudentClubCard({ club }: StudentClubCardProps) {
         </div>
         <div className="flex items-center text-sm text-muted-foreground">
           <Users className="h-4 w-4 mr-2 shrink-0" />
-          <span>{totalEnrolled} / {totalCapacity > 0 ? totalCapacity : 'N/A'} members</span>
+          <span>{totalEnrolled} / {totalCapacity > 0 ? totalCapacity : 'N/D'} miembros</span>
         </div>
       </CardContent>
       <CardFooter>
         {hasAvailableSlots ? (
           <Button asChild className="w-full" variant="default">
             <Link href={Routes.STUDENT_SIGNUP(club.id)}>
-              Sign Up <ArrowRight className="ml-2 h-4 w-4" />
+              Inscribirse <ArrowRight className="ml-2 h-4 w-4" />
             </Link>
           </Button>
         ) : (
           <Button className="w-full" variant="outline" disabled>
             <AlertCircle className="mr-2 h-4 w-4" />
-            Currently Full
+            Actualmente Lleno
           </Button>
         )}
       </CardFooter>

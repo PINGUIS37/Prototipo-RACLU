@@ -1,4 +1,4 @@
-export const APP_NAME = "ClubConnect";
+export const APP_NAME = "ClubConecta";
 
 export const Routes = {
   HOME: "/",
@@ -12,6 +12,6 @@ export const Routes = {
   ADMIN_ENROLLMENTS: "/admin/enrollments",
 };
 
-export const DAYS_OF_WEEK: DayOfWeek[] = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+export const DAYS_OF_WEEK: DayOfWeek[] = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"];
 
 export type DayOfWeek = typeof DAYS_OF_WEEK[number];

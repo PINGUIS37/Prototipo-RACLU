@@ -27,7 +27,7 @@ export default function HomePage() {
 
   return (
     <div className="flex items-center justify-center min-h-screen">
-      <p>Loading ClubConnect...</p> {/* Or a branded loading spinner */}
+      <p>Cargando ClubConecta...</p> {/* Or a branded loading spinner */}
     </div>
   );
 }

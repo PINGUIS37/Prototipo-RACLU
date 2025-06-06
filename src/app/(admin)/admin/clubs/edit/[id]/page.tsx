@@ -16,10 +16,10 @@ export default async function EditClubPage({ params }: EditClubPageProps) {
   if (!club) {
     return (
       <div>
-        <PageTitle title="Club Not Found" icon={AlertTriangle} />
+        <PageTitle title="Club No Encontrado" icon={AlertTriangle} />
         <Card>
           <CardHeader><CardTitle>Error</CardTitle></CardHeader>
-          <CardContent><p>The club you are trying to edit could not be found.</p></CardContent>
+          <CardContent><p>El club que intentas editar no pudo ser encontrado.</p></CardContent>
         </Card>
       </div>
     );
@@ -27,7 +27,7 @@ export default async function EditClubPage({ params }: EditClubPageProps) {
 
   return (
     <div>
-      <PageTitle title={`Edit Club: ${club.name}`} icon={Edit} />
+      <PageTitle title={`Editar Club: ${club.name}`} icon={Edit} />
       <ClubForm club={club} />
     </div>
   );

@@ -15,7 +15,7 @@ export default function AdminLayout({
           {children}
         </main>
         <footer className="py-4 text-center text-sm text-muted-foreground border-t">
-          © {new Date().getFullYear()} ClubConnect Admin.
+          © {new Date().getFullYear()} ClubConecta Admin.
         </footer>
       </div>
     </ProtectedRoute>

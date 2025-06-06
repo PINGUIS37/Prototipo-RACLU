@@ -26,6 +26,7 @@ import { removeEnrollmentAction } from "@/lib/actions/admin.actions";
 import { useToast } from "@/hooks/use-toast";
 import { useState } from "react";
 import { format } from 'date-fns';
+import { es } from 'date-fns/locale';
 
 interface EnrollmentTableProps {
   enrollments: (Enrollment & { clubName?: string, dayOfWeek?: string, timeRange?: string })[];
@@ -40,15 +41,15 @@ export function EnrollmentTable({ enrollments }: EnrollmentTableProps) {
     const result = await removeEnrollmentAction(enrollmentId, clubId);
     setIsDeleting(null);
     if (result.success) {
-      toast({ title: "Enrollment Removed", description: result.message });
+      toast({ title: "Inscripción Eliminada", description: result.message });
       // Data will be revalidated by action
     } else {
-      toast({ variant: "destructive", title: "Removal Failed", description: result.message });
+      toast({ variant: "destructive", title: "Fallo al Eliminar", description: result.message });
     }
   };
 
   if (!enrollments || enrollments.length === 0) {
-    return <p className="text-muted-foreground">No enrollments found.</p>;
+    return <p className="text-muted-foreground">No se encontraron inscripciones.</p>;
   }
 
   return (
@@ -56,13 +57,13 @@ export function EnrollmentTable({ enrollments }: EnrollmentTableProps) {
     <Table>
       <TableHeader>
         <TableRow>
-          <TableHead>Student ID</TableHead>
-          <TableHead>Name</TableHead>
-          <TableHead>Group</TableHead>
+          <TableHead>Matrícula Estudiante</TableHead>
+          <TableHead>Nombre</TableHead>
+          <TableHead>Grupo</TableHead>
           <TableHead>Club</TableHead>
-          <TableHead>Slot</TableHead>
-          <TableHead>Enrolled At</TableHead>
-          <TableHead className="text-right">Actions</TableHead>
+          <TableHead>Horario</TableHead>
+          <TableHead>Inscrito en</TableHead>
+          <TableHead className="text-right">Acciones</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -71,9 +72,9 @@ export function EnrollmentTable({ enrollments }: EnrollmentTableProps) {
             <TableCell>{enrollment.studentMatricula}</TableCell>
             <TableCell>{enrollment.studentFirstName} {enrollment.studentLastName}</TableCell>
             <TableCell>{enrollment.studentGroup}</TableCell>
-            <TableCell>{enrollment.clubName || 'N/A'}</TableCell>
-            <TableCell>{enrollment.dayOfWeek || 'N/A'}, {enrollment.timeRange || 'N/A'}</TableCell>
-            <TableCell>{format(new Date(enrollment.enrolledAt), "MMM dd, yyyy HH:mm")}</TableCell>
+            <TableCell>{enrollment.clubName || 'N/D'}</TableCell>
+            <TableCell>{enrollment.dayOfWeek || 'N/D'}, {enrollment.timeRange || 'N/D'}</TableCell>
+            <TableCell>{format(new Date(enrollment.enrolledAt), "MMM dd, yyyy HH:mm", { locale: es })}</TableCell>
             <TableCell className="text-right">
               <AlertDialog>
                 <AlertDialogTrigger asChild>
@@ -83,15 +84,15 @@ export function EnrollmentTable({ enrollments }: EnrollmentTableProps) {
                 </AlertDialogTrigger>
                 <AlertDialogContent>
                   <AlertDialogHeader>
-                    <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+                    <AlertDialogTitle>¿Estás seguro?</AlertDialogTitle>
                     <AlertDialogDescription>
-                      This action will remove the student {enrollment.studentFirstName} {enrollment.studentLastName} from {enrollment.clubName}. This cannot be undone.
+                      Esta acción eliminará al estudiante {enrollment.studentFirstName} {enrollment.studentLastName} de {enrollment.clubName}. Esto no se puede deshacer.
                     </AlertDialogDescription>
                   </AlertDialogHeader>
                   <AlertDialogFooter>
-                    <AlertDialogCancel disabled={isDeleting === enrollment.id}>Cancel</AlertDialogCancel>
+                    <AlertDialogCancel disabled={isDeleting === enrollment.id}>Cancelar</AlertDialogCancel>
                     <AlertDialogAction onClick={() => handleDelete(enrollment.id, enrollment.clubId)} disabled={isDeleting === enrollment.id}>
-                      {isDeleting === enrollment.id ? "Removing..." : "Confirm Removal"}
+                      {isDeleting === enrollment.id ? "Eliminando..." : "Confirmar Eliminación"}
                     </AlertDialogAction>
                   </AlertDialogFooter>
                 </AlertDialogContent>
@@ -100,7 +101,7 @@ export function EnrollmentTable({ enrollments }: EnrollmentTableProps) {
           </TableRow>
         ))}
       </TableBody>
-       {enrollments.length > 5 && <TableCaption>A list of all student enrollments.</TableCaption>}
+       {enrollments.length > 5 && <TableCaption>Una lista de todas las inscripciones de estudiantes.</TableCaption>}
     </Table>
     </div>
   );

@@ -16,8 +16,8 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 // Mock user data - in a real app, this would come from your auth provider / database
 const MOCK_USERS: Record<string, User> = {
-  student123: { id: 'std1', username: 'student123', name: 'John Doe', role: 'student', matricula: '12345', group: 'CS101' },
-  adminuser: { id: 'adm1', username: 'adminuser', name: 'Alice Smith', role: 'admin' },
+  student123: { id: 'std1', username: 'student123', name: 'Juan Pérez', role: 'student', matricula: '12345', group: 'CS101' },
+  adminuser: { id: 'adm1', username: 'adminuser', name: 'Ana López', role: 'admin' },
 };
 
 
@@ -34,7 +34,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         setUser(JSON.parse(storedUser));
       }
     } catch (error) {
-      console.error("Failed to load user from localStorage", error);
+      console.error("Fallo al cargar usuario de localStorage", error);
       localStorage.removeItem('clubconnect_user');
     }
     setIsLoading(false);
@@ -64,7 +64,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       }
     } else {
       setIsLoading(false);
-      throw new Error("Invalid credentials or role mismatch");
+      throw new Error("Credenciales inválidas o rol no coincide");
     }
   };
 
@@ -84,7 +84,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 export function useAuth() {
   const context = useContext(AuthContext);
   if (context === undefined) {
-    throw new Error('useAuth must be used within an AuthProvider');
+    throw new Error('useAuth debe ser usado dentro de un AuthProvider');
   }
   return context;
 }
@@ -107,7 +107,7 @@ export function ProtectedRoute({ children, allowedRoles }: { children: ReactNode
   if (isLoading || !user || !allowedRoles.includes(user.role)) {
     return (
       <div className="flex items-center justify-center h-screen">
-        <p>Loading...</p> {/* Or a spinner component */}
+        <p>Cargando...</p> {/* Or a spinner component */}
       </div>
     );
   }

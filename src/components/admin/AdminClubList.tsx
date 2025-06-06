@@ -12,9 +12,9 @@ export function AdminClubList({ clubs }: AdminClubListProps) {
     return (
       <Alert>
         <ListCollapse className="h-4 w-4" />
-        <AlertTitle>No Clubs Found</AlertTitle>
+        <AlertTitle>No se Encontraron Clubes</AlertTitle>
         <AlertDescription>
-          There are no clubs created yet. Click "Add New Club" to get started.
+          Aún no se han creado clubes. Haz clic en "Añadir Nuevo Club" para comenzar.
         </AlertDescription>
       </Alert>
     );

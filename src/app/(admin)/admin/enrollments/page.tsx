@@ -28,11 +28,11 @@ async function ClubFilter({ currentClubId }: { currentClubId?: string }) {
     <div className="mb-4 max-w-xs">
       <Select defaultValue={currentClubId || "all"}>
         <SelectTrigger id="club-filter">
-          <SelectValue placeholder="Filter by club..." />
+          <SelectValue placeholder="Filtrar por club..." />
         </SelectTrigger>
         <SelectContent>
           <Link href="/admin/enrollments" passHref>
-            <SelectItem value="all">All Clubs</SelectItem>
+            <SelectItem value="all">Todos los Clubes</SelectItem>
           </Link>
           {clubs.map(club => (
             <Link href={`?clubId=${club.id}`} key={club.id} passHref>
@@ -55,24 +55,24 @@ export default async function AdminEnrollmentsPage({
 
   return (
     <div>
-      <PageTitle title="Club Enrollments" icon={ScrollText} />
+      <PageTitle title="Inscripciones a Clubes" icon={ScrollText} />
        <p className="mb-6 text-muted-foreground">
-        View and manage student enrollments for all clubs. You can filter by a specific club.
+        Visualiza y gestiona las inscripciones de estudiantes para todos los clubes. Puedes filtrar por un club específico.
       </p>
       
       <Card className="mb-6">
         <CardHeader className="pb-2">
-            <h3 className="text-md font-medium">Filter Enrollments</h3>
+            <h3 className="text-md font-medium">Filtrar Inscripciones</h3>
         </CardHeader>
         <CardContent>
-          <Suspense fallback={<p>Loading filters...</p>}>
+          <Suspense fallback={<p>Cargando filtros...</p>}>
              {/* @ts-expect-error Server Component */}
             <ClubFilter currentClubId={clubId} />
           </Suspense>
         </CardContent>
       </Card>
       
-      <Suspense fallback={<p className="text-center py-8">Loading enrollments...</p>}>
+      <Suspense fallback={<p className="text-center py-8">Cargando inscripciones...</p>}>
          {/* @ts-expect-error Server Component */}
         <FilterableEnrollmentList clubId={clubId} />
       </Suspense>

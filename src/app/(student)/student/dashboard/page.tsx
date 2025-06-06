@@ -8,9 +8,9 @@ export default async function StudentDashboardPage() {
 
   return (
     <div>
-      <PageTitle title="Club Catalog" icon={LayoutGrid} />
+      <PageTitle title="Catálogo de Clubes" icon={LayoutGrid} />
       <p className="mb-6 text-muted-foreground">
-        Browse available clubs and sign up for the ones that interest you. Click on a club to see more details and enroll.
+        Explora los clubes disponibles e inscríbete en los que te interesen. Haz clic en un club para ver más detalles e inscribirte.
       </p>
       <StudentClubList clubs={clubs} />
     </div>

@@ -8,38 +8,37 @@ import { Routes, DAYS_OF_WEEK } from "../constants";
 import { v4 as uuidv4 } from "uuid";
 
 const TimeSlotSchema = z.object({
-  id: z.string().optional(), // Optional for new slots
+  id: z.string().optional(), 
   dayOfWeek: z.enum(DAYS_OF_WEEK as [DayOfWeek, ...DayOfWeek[]]),
-  startTime: z.string().regex(/^([01]\d|2[0-3]):([0-5]\d)$/, "Invalid start time format (HH:MM)"),
-  endTime: z.string().regex(/^([01]\d|2[0-3]):([0-5]\d)$/, "Invalid end time format (HH:MM)"),
-  capacity: z.coerce.number().int().min(0, "Capacity cannot be negative."),
-  enrolledCount: z.coerce.number().int().optional(), // For existing slots
+  startTime: z.string().regex(/^([01]\d|2[0-3]):([0-5]\d)$/, "Formato de hora de inicio inválido (HH:MM)"),
+  endTime: z.string().regex(/^([01]\d|2[0-3]):([0-5]\d)$/, "Formato de hora de fin inválido (HH:MM)"),
+  capacity: z.coerce.number().int().min(0, "La capacidad no puede ser negativa."),
+  enrolledCount: z.coerce.number().int().optional(), 
 }).refine(data => {
-    // Basic validation: end time must be after start time
     const [startH, startM] = data.startTime.split(':').map(Number);
     const [endH, endM] = data.endTime.split(':').map(Number);
     return endH > startH || (endH === startH && endM > startM);
-}, { message: "End time must be after start time.", path: ["endTime"] });
+}, { message: "La hora de fin debe ser posterior a la hora de inicio.", path: ["endTime"] });
 
 
 const ClubFormSchema = z.object({
-  name: z.string().min(3, "Club name must be at least 3 characters."),
-  description: z.string().min(10, "Description must be at least 10 characters."),
+  name: z.string().min(3, "El nombre del club debe tener al menos 3 caracteres."),
+  description: z.string().min(10, "La descripción debe tener al menos 10 caracteres."),
   categoryIcon: z.string().optional(),
-  timeSlots: z.array(TimeSlotSchema).min(0, "At least one time slot is recommended."), // Allow zero for initial creation
+  timeSlots: z.array(TimeSlotSchema).min(0, "Se recomienda al menos un horario."),
 });
 
 export async function createClubAction(formData: ClubFormData, timeSlotsData: TimeSlotFormData[]) {
   const clubDataWithSlots = {
     ...formData,
-    timeSlots: timeSlotsData.map(ts => ({...ts})) // create new objects, id and enrolledCount will be set in addClub
+    timeSlots: timeSlotsData.map(ts => ({...ts})) 
   };
   const validatedFields = ClubFormSchema.safeParse(clubDataWithSlots);
 
   if (!validatedFields.success) {
     return {
       errors: validatedFields.error.flatten().fieldErrors,
-      message: "Validation failed. Failed to create club.",
+      message: "Validación fallida. No se pudo crear el club.",
     };
   }
 
@@ -50,9 +49,9 @@ export async function createClubAction(formData: ClubFormData, timeSlotsData: Ti
     await addClub(newClubData);
     revalidatePath(Routes.ADMIN_CLUBS);
     revalidatePath(Routes.STUDENT_DASHBOARD);
-    return { success: true, message: "Club created successfully." };
+    return { success: true, message: "Club creado exitosamente." };
   } catch (error) {
-    return { message: "Database Error: Failed to create club." };
+    return { message: "Error de Base de Datos: No se pudo crear el club." };
   }
 }
 
@@ -60,35 +59,34 @@ export async function updateClubAction(clubId: string, formData: ClubFormData, t
    const clubDataWithSlots = {
     ...formData,
     timeSlots: timeSlotsData.map(ts => ({
-        id: ts.id || uuidv4(), // ensure ID for new slots
+        id: ts.id || uuidv4(), 
         dayOfWeek: ts.dayOfWeek,
         startTime: ts.startTime,
         endTime: ts.endTime,
-        capacity: Number(ts.capacity), // ensure number
-        enrolledCount: Number(ts.enrolledCount || 0), // ensure number
+        capacity: Number(ts.capacity), 
+        enrolledCount: Number(ts.enrolledCount || 0), 
     }))
   };
 
   const validatedFields = ClubFormSchema.safeParse(clubDataWithSlots);
 
   if (!validatedFields.success) {
-    console.log("Validation errors:", validatedFields.error.flatten());
+    console.log("Errores de validación:", validatedFields.error.flatten());
     return {
       errors: validatedFields.error.flatten().fieldErrors,
-      message: "Validation failed. Failed to update club.",
+      message: "Validación fallida. No se pudo actualizar el club.",
     };
   }
   
   const { name, description, categoryIcon, timeSlots } = validatedFields.data;
 
   try {
-    // Check for capacity issues with existing enrollments if capacity is reduced for a timeslot
     const existingClub = await getClubById(clubId);
     if (existingClub) {
         for (const updatedSlot of timeSlots) {
             const existingSlot = existingClub.timeSlots.find(es => es.id === updatedSlot.id);
             if (existingSlot && updatedSlot.capacity < existingSlot.enrolledCount) {
-                return { message: `Cannot reduce capacity for slot ${existingSlot.dayOfWeek} ${existingSlot.startTime}-${existingSlot.endTime} below current enrollment count (${existingSlot.enrolledCount}).` };
+                return { message: `No se puede reducir la capacidad para el horario ${existingSlot.dayOfWeek} ${existingSlot.startTime}-${existingSlot.endTime} por debajo del número actual de inscritos (${existingSlot.enrolledCount}).` };
             }
         }
     }
@@ -98,10 +96,10 @@ export async function updateClubAction(clubId: string, formData: ClubFormData, t
     revalidatePath(Routes.ADMIN_CLUBS_EDIT(clubId));
     revalidatePath(Routes.STUDENT_DASHBOARD);
     revalidatePath(Routes.STUDENT_SIGNUP(clubId));
-    return { success: true, message: "Club updated successfully." };
+    return { success: true, message: "Club actualizado exitosamente." };
   } catch (error) {
     console.error(error);
-    return { message: "Database Error: Failed to update club." };
+    return { message: "Error de Base de Datos: No se pudo actualizar el club." };
   }
 }
 
@@ -110,10 +108,9 @@ export async function deleteClubAction(clubId: string) {
     await deleteClub(clubId);
     revalidatePath(Routes.ADMIN_CLUBS);
     revalidatePath(Routes.STUDENT_DASHBOARD);
-    // Potentially revalidate student-specific views if they were enrolled
-    return { success: true, message: "Club deleted successfully." };
+    return { success: true, message: "Club eliminado exitosamente." };
   } catch (error) {
-    return { message: "Database Error: Failed to delete club." };
+    return { message: "Error de Base de Datos: No se pudo eliminar el club." };
   }
 }
 
@@ -122,11 +119,11 @@ export async function removeEnrollmentAction(enrollmentId: string, clubId: strin
   try {
     await removeEnrollment(enrollmentId);
     revalidatePath(Routes.ADMIN_ENROLLMENTS);
-    revalidatePath(Routes.ADMIN_CLUBS_EDIT(clubId)); // Revalidate club details if it shows enrollment counts
-    revalidatePath(Routes.STUDENT_DASHBOARD); // Student might see updated availability
-    return { success: true, message: "Enrollment removed successfully." };
+    revalidatePath(Routes.ADMIN_CLUBS_EDIT(clubId)); 
+    revalidatePath(Routes.STUDENT_DASHBOARD); 
+    return { success: true, message: "Inscripción eliminada exitosamente." };
   } catch (error) {
-    return { message: "Database Error: Failed to remove enrollment." };
+    return { message: "Error de Base de Datos: No se pudo eliminar la inscripción." };
   }
 }
 

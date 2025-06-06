@@ -1,58 +1,59 @@
 import type { Club, Enrollment, TimeSlot, User } from './types';
-import { v4 as uuidv4 } from 'uuid'; // Needs: npm install uuid && npm install @types/uuid -D
+import { v4 as uuidv4 } from 'uuid'; 
+import { DAYS_OF_WEEK } from './constants'; // Import translated days
 
 // In-memory store
 let clubs: Club[] = [
   {
     id: 'club1',
-    name: 'Chess Club',
-    description: 'Sharpen your mind with the ancient game of strategy. All levels welcome!',
-    categoryIcon: 'Puzzle', // lucide-react icon name
+    name: 'Club de Ajedrez',
+    description: '¡Agudiza tu mente con el antiguo juego de estrategia. Todos los niveles son bienvenidos!',
+    categoryIcon: 'Puzzle', 
     timeSlots: [
-      { id: 'ts1-1', dayOfWeek: 'Monday', startTime: '16:00', endTime: '18:00', capacity: 20, enrolledCount: 5 },
-      { id: 'ts1-2', dayOfWeek: 'Wednesday', startTime: '17:00', endTime: '19:00', capacity: 15, enrolledCount: 2 },
+      { id: 'ts1-1', dayOfWeek: 'Lunes', startTime: '16:00', endTime: '18:00', capacity: 20, enrolledCount: 5 },
+      { id: 'ts1-2', dayOfWeek: 'Miércoles', startTime: '17:00', endTime: '19:00', capacity: 15, enrolledCount: 2 },
     ],
   },
   {
     id: 'club2',
-    name: 'Debate Society',
-    description: 'Engage in stimulating discussions and hone your public speaking skills.',
+    name: 'Sociedad de Debate',
+    description: 'Participa en discusiones estimulantes y perfecciona tus habilidades de oratoria.',
     categoryIcon: 'Mic',
     timeSlots: [
-      { id: 'ts2-1', dayOfWeek: 'Tuesday', startTime: '18:00', endTime: '20:00', capacity: 25, enrolledCount: 10 },
-      { id: 'ts2-2', dayOfWeek: 'Thursday', startTime: '18:00', endTime: '20:00', capacity: 25, enrolledCount: 0 },
+      { id: 'ts2-1', dayOfWeek: 'Martes', startTime: '18:00', endTime: '20:00', capacity: 25, enrolledCount: 10 },
+      { id: 'ts2-2', dayOfWeek: 'Jueves', startTime: '18:00', endTime: '20:00', capacity: 25, enrolledCount: 0 },
     ],
   },
   {
     id: 'club3',
-    name: 'Art & Painting Club',
-    description: 'Unleash your creativity on canvas. Materials provided for beginners.',
+    name: 'Club de Arte y Pintura',
+    description: 'Desata tu creatividad en el lienzo. Se proporcionan materiales para principiantes.',
     categoryIcon: 'Paintbrush',
     timeSlots: [
-      { id: 'ts3-1', dayOfWeek: 'Friday', startTime: '15:00', endTime: '17:30', capacity: 12, enrolledCount: 12 },
+      { id: 'ts3-1', dayOfWeek: 'Viernes', startTime: '15:00', endTime: '17:30', capacity: 12, enrolledCount: 12 },
     ],
   },
   {
     id: 'club4',
-    name: 'Coding Ninjas',
-    description: 'Collaborate on projects, learn new technologies, and prepare for hackathons.',
+    name: 'Ninjas de la Programación',
+    description: 'Colabora en proyectos, aprende nuevas tecnologías y prepárate para hackatones.',
     categoryIcon: 'Code',
     timeSlots: [
-      { id: 'ts4-1', dayOfWeek: 'Monday', startTime: '19:00', endTime: '21:00', capacity: 30, enrolledCount: 15 },
-      { id: 'ts4-2', dayOfWeek: 'Wednesday', startTime: '19:00', endTime: '21:00', capacity: 30, enrolledCount: 28 },
-      { id: 'ts4-3', dayOfWeek: 'Saturday', startTime: '10:00', endTime: '13:00', capacity: 20, enrolledCount: 0 },
+      { id: 'ts4-1', dayOfWeek: 'Lunes', startTime: '19:00', endTime: '21:00', capacity: 30, enrolledCount: 15 },
+      { id: 'ts4-2', dayOfWeek: 'Miércoles', startTime: '19:00', endTime: '21:00', capacity: 30, enrolledCount: 28 },
+      { id: 'ts4-3', dayOfWeek: 'Sábado', startTime: '10:00', endTime: '13:00', capacity: 20, enrolledCount: 0 },
     ],
   },
 ];
 
 let enrollments: Enrollment[] = [
-    { id: 'enr1', studentMatricula: '12345', studentFirstName: 'John', studentLastName: 'Doe', studentGroup: 'CS101', clubId: 'club1', timeSlotId: 'ts1-1', enrolledAt: new Date().toISOString() },
+    { id: 'enr1', studentMatricula: '12345', studentFirstName: 'Juan', studentLastName: 'Pérez', studentGroup: 'CS101', clubId: 'club1', timeSlotId: 'ts1-1', enrolledAt: new Date().toISOString() },
 ];
 
 
 // --- Club Management ---
 export async function getClubs(): Promise<Club[]> {
-  return JSON.parse(JSON.stringify(clubs)); // Return deep copy
+  return JSON.parse(JSON.stringify(clubs)); 
 }
 
 export async function getClubById(id: string): Promise<Club | undefined> {
@@ -63,7 +64,7 @@ export async function addClub(clubData: Omit<Club, 'id' | 'timeSlots'> & { timeS
   const newClub: Club = {
     ...clubData,
     id: uuidv4(),
-    timeSlots: (clubData.timeSlots || []).map(ts => ({ ...ts, id: uuidv4(), enrolledCount: 0 })),
+    timeSlots: (clubData.timeSlots || []).map(ts => ({ ...ts, dayOfWeek: ts.dayOfWeek as DayOfWeek, id: uuidv4(), enrolledCount: 0 })),
   };
   clubs.push(newClub);
   return JSON.parse(JSON.stringify(newClub));
@@ -74,11 +75,11 @@ export async function updateClub(id: string, clubData: Partial<Omit<Club, 'id'>>
   if (clubIndex === -1) return null;
   
   const updatedClub = { ...clubs[clubIndex], ...clubData };
-  // Ensure timeSlots always have ids and enrolledCount if provided
   if (clubData.timeSlots) {
     updatedClub.timeSlots = clubData.timeSlots.map(ts => ({
       id: ts.id || uuidv4(),
       ...ts,
+      dayOfWeek: ts.dayOfWeek as DayOfWeek,
       enrolledCount: ts.enrolledCount || 0,
     }));
   }
@@ -90,14 +91,10 @@ export async function updateClub(id: string, clubData: Partial<Omit<Club, 'id'>>
 export async function deleteClub(id: string): Promise<boolean> {
   const initialLength = clubs.length;
   clubs = clubs.filter(club => club.id !== id);
-  // Also remove associated enrollments
   enrollments = enrollments.filter(enr => enr.clubId !== id);
   return clubs.length < initialLength;
 }
 
-// --- Time Slot Management within a Club (simplified, part of updateClub) ---
-// For more granular control, you'd have addTimeSlotToClub, removeTimeSlotFromClub, etc.
-// Example: updateClub can receive a new timeSlots array.
 
 // --- Enrollment Management ---
 export async function getEnrollments(clubId?: string): Promise<Enrollment[]> {
@@ -112,32 +109,27 @@ export async function getEnrollments(clubId?: string): Promise<Enrollment[]> {
       ...e,
       clubName: club?.name,
       dayOfWeek: timeSlot?.dayOfWeek,
-      timeRange: timeSlot ? `${timeSlot.startTime} - ${timeSlot.endTime}` : 'N/A'
+      timeRange: timeSlot ? `${timeSlot.startTime} - ${timeSlot.endTime}` : 'N/D'
     }
   })));
 }
 
 export async function addEnrollment(enrollmentData: Omit<Enrollment, 'id' | 'enrolledAt'>): Promise<Enrollment | string> {
   const club = clubs.find(c => c.id === enrollmentData.clubId);
-  if (!club) return "Club not found.";
+  if (!club) return "Club no encontrado.";
   
   const timeSlot = club.timeSlots.find(ts => ts.id === enrollmentData.timeSlotId);
-  if (!timeSlot) return "Time slot not found.";
+  if (!timeSlot) return "Horario no encontrado.";
 
-  if (timeSlot.enrolledCount >= timeSlot.capacity) return "This time slot is full.";
+  if (timeSlot.enrolledCount >= timeSlot.capacity) return "Este horario está lleno.";
 
-  // Check if student is already enrolled in this specific timeslot
   const existingEnrollment = enrollments.find(e => 
     e.studentMatricula === enrollmentData.studentMatricula &&
     e.clubId === enrollmentData.clubId &&
     e.timeSlotId === enrollmentData.timeSlotId
   );
-  if (existingEnrollment) return "Student already enrolled in this slot.";
+  if (existingEnrollment) return "El estudiante ya está inscrito en este horario.";
   
-  // Check if student is already enrolled in any other club at the same day and overlapping time
-  // This is a more complex check, for now, we'll skip this for simplicity.
-  // A real system would check for time conflicts across all club enrollments for the student.
-
   timeSlot.enrolledCount++;
   const newEnrollment: Enrollment = {
     ...enrollmentData,
@@ -165,22 +157,18 @@ export async function removeEnrollment(enrollmentId: string): Promise<boolean> {
   return true;
 }
 
-// Helper to get student data by matricula (for pre-filling forms if user is logged in)
 export async function getStudentDetailsByMatricula(matricula: string, loggedInUser: User | null): Promise<Partial<Enrollment> | null> {
     if (loggedInUser && loggedInUser.role === 'student' && loggedInUser.matricula === matricula) {
         return {
             studentMatricula: loggedInUser.matricula,
-            studentFirstName: loggedInUser.name.split(' ')[0] || '', // simplistic split
-            studentLastName: loggedInUser.name.split(' ').slice(1).join(' ') || '', // simplistic split
+            studentFirstName: loggedInUser.name.split(' ')[0] || '', 
+            studentLastName: loggedInUser.name.split(' ').slice(1).join(' ') || '', 
             studentGroup: loggedInUser.group || '',
         };
     }
-    // In a real app, you might query a student database
     return null; 
 }
 
-// Initialize uuid - run `npm install uuid` and `npm install --save-dev @types/uuid`
-// This is just to ensure the mock data functions work.
 if (typeof window !== 'undefined') {
     // ensures uuid can be used if this file is imported client-side for types, though it's primarily server-side logic.
 }

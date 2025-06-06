@@ -7,12 +7,12 @@ import { revalidatePath } from "next/cache";
 import { Routes } from "../constants";
 
 const SignUpFormSchema = z.object({
-  matricula: z.string().min(1, "Matricula is required."),
-  firstName: z.string().min(1, "First name is required."),
-  lastName: z.string().min(1, "Last name is required."),
-  group: z.string().min(1, "Group is required."),
-  clubId: z.string().min(1, "Club selection is required."),
-  timeSlotId: z.string().min(1, "Time slot selection is required."),
+  matricula: z.string().min(1, "La matrícula es obligatoria."),
+  firstName: z.string().min(1, "El nombre es obligatorio."),
+  lastName: z.string().min(1, "El apellido es obligatorio."),
+  group: z.string().min(1, "El grupo es obligatorio."),
+  clubId: z.string().min(1, "La selección del club es obligatoria."),
+  timeSlotId: z.string().min(1, "La selección del horario es obligatoria."),
 });
 
 export async function signUpForClubAction(formData: SignUpFormData) {
@@ -21,7 +21,7 @@ export async function signUpForClubAction(formData: SignUpFormData) {
   if (!validatedFields.success) {
     return {
       errors: validatedFields.error.flatten().fieldErrors,
-      message: "Missing Fields. Failed to Sign Up.",
+      message: "Campos Faltantes. Fallo al Inscribirse.",
     };
   }
 
@@ -41,23 +41,20 @@ export async function signUpForClubAction(formData: SignUpFormData) {
         return { message: result };
     }
     
-    // Revalidate paths that show club lists or enrollment counts
     revalidatePath(Routes.STUDENT_DASHBOARD);
-    revalidatePath(Routes.STUDENT_SIGNUP(clubId)); // Revalidate the specific signup page if needed
+    revalidatePath(Routes.STUDENT_SIGNUP(clubId)); 
     revalidatePath(Routes.ADMIN_ENROLLMENTS);
     revalidatePath(Routes.ADMIN_CLUBS_EDIT(clubId));
 
 
-    return { success: true, message: "Successfully enrolled in the club!" };
+    return { success: true, message: "¡Inscrito exitosamente en el club!" };
   } catch (error) {
-    console.error("Sign up error:", error);
-    return { message: "Database Error: Failed to sign up for club." };
+    console.error("Error de inscripción:", error);
+    return { message: "Error de Base de Datos: No se pudo inscribir al club." };
   }
 }
 
 export async function fetchStudentDetailsForForm(matricula: string, user: User | null) {
-    // This function should be secured in a real app to prevent arbitrary student data lookup
-    // For now, it uses the logged-in user's context if available
     return getStudentDetailsByMatricula(matricula, user);
 }
 

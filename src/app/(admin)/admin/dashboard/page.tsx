@@ -16,39 +16,39 @@ export default async function AdminDashboardPage() {
 
   return (
     <div>
-      <PageTitle title="Admin Dashboard" icon={ShieldCheck} />
+      <PageTitle title="Panel de Administración" icon={ShieldCheck} />
       <p className="mb-6 text-muted-foreground">
-        Welcome to the Club Administration Panel. Manage clubs, view enrollments, and oversee university club activities.
+        Bienvenido al Panel de Administración de Clubes. Gestiona clubes, visualiza inscripciones y supervisa las actividades de los clubes universitarios.
       </p>
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 mb-8">
         <Card className="shadow-lg">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Clubs</CardTitle>
+            <CardTitle className="text-sm font-medium">Clubes Totales</CardTitle>
             <Settings className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{totalClubs}</div>
-            <p className="text-xs text-muted-foreground">Currently active clubs</p>
+            <p className="text-xs text-muted-foreground">Clubes actualmente activos</p>
           </CardContent>
         </Card>
         <Card className="shadow-lg">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Enrollments</CardTitle>
+            <CardTitle className="text-sm font-medium">Inscripciones Totales</CardTitle>
             <Users className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{totalEnrollments}</div>
-            <p className="text-xs text-muted-foreground">Across all clubs</p>
+            <p className="text-xs text-muted-foreground">En todos los clubes</p>
           </CardContent>
         </Card>
         <Card className="shadow-lg">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Avg. Enrollment/Club</CardTitle>
+            <CardTitle className="text-sm font-medium">Prom. Inscripción/Club</CardTitle>
             <Users className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{averageEnrollmentPerClub}</div>
-            <p className="text-xs text-muted-foreground">Average members per club</p>
+            <p className="text-xs text-muted-foreground">Promedio de miembros por club</p>
           </CardContent>
         </Card>
       </div>
@@ -56,23 +56,23 @@ export default async function AdminDashboardPage() {
       <div className="grid gap-6 md:grid-cols-1 lg:grid-cols-2">
         <Card className="shadow-md">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2"><Settings className="h-5 w-5 text-primary"/>Club Management</CardTitle>
-            <CardDescription>Add, edit, or remove university clubs. Update their descriptions, schedules, and capacities.</CardDescription>
+            <CardTitle className="flex items-center gap-2"><Settings className="h-5 w-5 text-primary"/>Gestión de Clubes</CardTitle>
+            <CardDescription>Añade, edita o elimina clubes universitarios. Actualiza sus descripciones, horarios y capacidades.</CardDescription>
           </CardHeader>
           <CardContent>
             <Button asChild>
-              <Link href={Routes.ADMIN_CLUBS}>Manage Clubs <ArrowRight className="ml-2 h-4 w-4"/></Link>
+              <Link href={Routes.ADMIN_CLUBS}>Gestionar Clubes <ArrowRight className="ml-2 h-4 w-4"/></Link>
             </Button>
           </CardContent>
         </Card>
         <Card className="shadow-md">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2"><ScrollText className="h-5 w-5 text-primary"/>Enrollment Overview</CardTitle>
-            <CardDescription>View detailed lists of students enrolled in each club. Monitor registration trends.</CardDescription>
+            <CardTitle className="flex items-center gap-2"><ScrollText className="h-5 w-5 text-primary"/>Resumen de Inscripciones</CardTitle>
+            <CardDescription>Visualiza listas detalladas de estudiantes inscritos en cada club. Monitorea las tendencias de inscripción.</CardDescription>
           </CardHeader>
           <CardContent>
             <Button asChild>
-              <Link href={Routes.ADMIN_ENROLLMENTS}>View Enrollments <ArrowRight className="ml-2 h-4 w-4"/></Link>
+              <Link href={Routes.ADMIN_ENROLLMENTS}>Ver Inscripciones <ArrowRight className="ml-2 h-4 w-4"/></Link>
             </Button>
           </CardContent>
         </Card>

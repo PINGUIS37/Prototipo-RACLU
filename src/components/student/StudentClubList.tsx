@@ -12,9 +12,9 @@ export function StudentClubList({ clubs }: StudentClubListProps) {
     return (
       <Alert className="mt-8">
         <ListCollapse className="h-4 w-4" />
-        <AlertTitle>No Clubs Available</AlertTitle>
+        <AlertTitle>No Hay Clubes Disponibles</AlertTitle>
         <AlertDescription>
-          There are currently no clubs open for registration. Please check back later.
+          Actualmente no hay clubes abiertos para inscripción. Por favor, vuelve más tarde.
         </AlertDescription>
       </Alert>
     );

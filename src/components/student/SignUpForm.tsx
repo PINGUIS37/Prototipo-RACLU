@@ -26,12 +26,12 @@ import { useAuth } from "@/hooks/use-auth";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "../ui/card";
 
 const SignUpFormSchema = z.object({
-  matricula: z.string().min(1, "Matricula is required."),
-  firstName: z.string().min(1, "First name is required."),
-  lastName: z.string().min(1, "Last name is required."),
-  group: z.string().min(1, "Group is required."),
+  matricula: z.string().min(1, "La matrícula es obligatoria."),
+  firstName: z.string().min(1, "El nombre es obligatorio."),
+  lastName: z.string().min(1, "El apellido es obligatorio."),
+  group: z.string().min(1, "El grupo es obligatorio."),
   clubId: z.string(), // Hidden field, pre-filled
-  timeSlotId: z.string().min(1, "Please select an available time slot."),
+  timeSlotId: z.string().min(1, "Por favor selecciona un horario disponible."),
 });
 
 type SignUpFormValues = z.infer<typeof SignUpFormSchema>;
@@ -88,15 +88,15 @@ export function SignUpForm({ club }: SignUpFormProps) {
 
     if (result.success) {
       toast({
-        title: "Enrollment Successful!",
+        title: "¡Inscripción Exitosa!",
         description: result.message,
       });
       router.push(Routes.STUDENT_DASHBOARD); // Or a success page
     } else {
       toast({
         variant: "destructive",
-        title: "Enrollment Failed",
-        description: result.message || "An unexpected error occurred.",
+        title: "Fallo en la Inscripción",
+        description: result.message || "Ocurrió un error inesperado.",
       });
     }
   }
@@ -106,7 +106,7 @@ export function SignUpForm({ club }: SignUpFormProps) {
       <CardHeader>
         <CardTitle className="flex items-center gap-2 text-2xl">
           <UserPlus className="h-6 w-6 text-primary" />
-          Enroll in: {club.name}
+          Inscribirse en: {club.name}
         </CardTitle>
         <CardDescription>{club.description}</CardDescription>
       </CardHeader>
@@ -119,9 +119,9 @@ export function SignUpForm({ club }: SignUpFormProps) {
                 name="matricula"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Matricula (Student ID)</FormLabel>
+                    <FormLabel>Matrícula (ID Estudiante)</FormLabel>
                     <FormControl>
-                      <Input placeholder="Your student ID" {...field} />
+                      <Input placeholder="Tu ID de estudiante" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -132,9 +132,9 @@ export function SignUpForm({ club }: SignUpFormProps) {
                 name="group"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Group / Class</FormLabel>
+                    <FormLabel>Grupo / Clase</FormLabel>
                     <FormControl>
-                      <Input placeholder="e.g., CS101, Group A" {...field} />
+                      <Input placeholder="ej., CS101, Grupo A" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -147,9 +147,9 @@ export function SignUpForm({ club }: SignUpFormProps) {
                 name="firstName"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>First Name</FormLabel>
+                    <FormLabel>Nombre(s)</FormLabel>
                     <FormControl>
-                      <Input placeholder="Your first name" {...field} />
+                      <Input placeholder="Tu nombre(s)" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -160,9 +160,9 @@ export function SignUpForm({ club }: SignUpFormProps) {
                 name="lastName"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Last Name</FormLabel>
+                    <FormLabel>Apellidos</FormLabel>
                     <FormControl>
-                      <Input placeholder="Your last name" {...field} />
+                      <Input placeholder="Tus apellidos" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -175,11 +175,11 @@ export function SignUpForm({ club }: SignUpFormProps) {
               name="timeSlotId"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Available Day and Time</FormLabel>
+                  <FormLabel>Día y Hora Disponibles</FormLabel>
                   <Select onValueChange={field.onChange} defaultValue={field.value}>
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue placeholder="Select an available slot" />
+                        <SelectValue placeholder="Selecciona un horario disponible" />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
@@ -187,16 +187,16 @@ export function SignUpForm({ club }: SignUpFormProps) {
                         availableTimeSlots.map((slot) => (
                           <SelectItem key={slot.id} value={slot.id}>
                             {slot.dayOfWeek}, {slot.startTime} - {slot.endTime} 
-                            (Available: {slot.capacity - slot.enrolledCount})
+                            (Disponibles: {slot.capacity - slot.enrolledCount})
                           </SelectItem>
                         ))
                       ) : (
-                        <SelectItem value="no-slots" disabled>No available slots for this club.</SelectItem>
+                        <SelectItem value="no-slots" disabled>No hay horarios disponibles para este club.</SelectItem>
                       )}
                     </SelectContent>
                   </Select>
                   <FormDescription>
-                    Choose your preferred day and time to attend the club.
+                    Elige tu día y hora preferidos para asistir al club.
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
@@ -207,14 +207,14 @@ export function SignUpForm({ club }: SignUpFormProps) {
 
             <Button type="submit" className="w-full" disabled={isSubmitting || availableTimeSlots.length === 0}>
               {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-              {isSubmitting ? "Enrolling..." : "Enroll Now"}
+              {isSubmitting ? "Inscribiendo..." : "Inscribirse Ahora"}
             </Button>
           </form>
         </Form>
       </CardContent>
       <CardFooter>
         <p className="text-xs text-muted-foreground">
-            Ensure your details are correct before submitting. Enrollment is subject to availability.
+            Asegúrate de que tus datos sean correctos antes de enviar. La inscripción está sujeta a disponibilidad.
         </p>
       </CardFooter>
     </Card>

@@ -15,7 +15,7 @@ export default function StudentLayout({
           {children}
         </main>
         <footer className="py-4 text-center text-sm text-muted-foreground border-t">
-          © {new Date().getFullYear()} ClubConnect. All rights reserved.
+          © {new Date().getFullYear()} ClubConecta. Todos los derechos reservados.
         </footer>
       </div>
     </ProtectedRoute>

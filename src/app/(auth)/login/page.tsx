@@ -23,7 +23,7 @@ export default function LoginPage() {
     // Show loading or nothing if redirecting
     return (
       <div className="flex min-h-screen items-center justify-center p-4">
-        <p>Loading...</p>
+        <p>Cargando...</p>
       </div>
     );
   }
@@ -35,15 +35,15 @@ export default function LoginPage() {
       </div>
       <Card className="w-full max-w-md shadow-xl">
         <CardHeader className="text-center">
-          <CardTitle className="text-2xl font-headline">Welcome Back!</CardTitle>
-          <CardDescription>Sign in to access club registrations.</CardDescription>
+          <CardTitle className="text-2xl font-headline">¡Bienvenido de Nuevo!</CardTitle>
+          <CardDescription>Inicia sesión para acceder a las inscripciones de clubes.</CardDescription>
         </CardHeader>
         <CardContent>
           <LoginForm />
         </CardContent>
       </Card>
       <p className="mt-8 text-center text-sm text-muted-foreground">
-        University Club Portal. Connect, engage, and grow.
+        Portal de Clubes Universitarios. Conecta, participa y crece.
       </p>
     </div>
   );

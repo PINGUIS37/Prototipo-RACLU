@@ -32,29 +32,29 @@ const IconOptions = ["Puzzle", "Mic", "Paintbrush", "Code", "Users", "BarChart",
 const TimeSlotSchema = z.object({
   id: z.string().optional(), 
   dayOfWeek: z.enum(DAYS_OF_WEEK as [DayOfWeek, ...DayOfWeek[]]),
-  startTime: z.string().regex(/^([01]\d|2[0-3]):([0-5]\d)$/, "Invalid start time format (HH:MM)"),
-  endTime: z.string().regex(/^([01]\d|2[0-3]):([0-5]\d)$/, "Invalid end time format (HH:MM)"),
-  capacity: z.coerce.number().int().min(0, "Capacity must be a non-negative integer."),
+  startTime: z.string().regex(/^([01]\d|2[0-3]):([0-5]\d)$/, "Formato de hora de inicio inválido (HH:MM)"),
+  endTime: z.string().regex(/^([01]\d|2[0-3]):([0-5]\d)$/, "Formato de hora de fin inválido (HH:MM)"),
+  capacity: z.coerce.number().int().min(0, "La capacidad debe ser un entero no negativo."),
   enrolledCount: z.coerce.number().int().optional(),
 }).refine(data => {
     const [startH, startM] = data.startTime.split(':').map(Number);
     const [endH, endM] = data.endTime.split(':').map(Number);
     return endH > startH || (endH === startH && endM > startM);
-}, { message: "End time must be after start time.", path: ["endTime"] });
+}, { message: "La hora de fin debe ser posterior a la hora de inicio.", path: ["endTime"] });
 
 
 const ClubFormInternalSchema = z.object({
-  name: z.string().min(3, "Club name must be at least 3 characters."),
-  description: z.string().min(10, "Description must be at least 10 characters."),
+  name: z.string().min(3, "El nombre del club debe tener al menos 3 caracteres."),
+  description: z.string().min(10, "La descripción debe tener al menos 10 caracteres."),
   categoryIcon: z.string().optional(),
-  timeSlots: z.array(TimeSlotSchema).min(0), // Allow zero for initial creation and validation happens in TimeSlotManager for adding new ones.
+  timeSlots: z.array(TimeSlotSchema).min(0), 
 });
 
 
 type ClubFormValues = z.infer<typeof ClubFormInternalSchema>;
 
 interface ClubFormProps {
-  club?: Club; // Optional: if provided, it's an edit form
+  club?: Club; 
 }
 
 export function ClubForm({ club }: ClubFormProps) {
@@ -87,17 +87,17 @@ export function ClubForm({ club }: ClubFormProps) {
 
     if (result.success) {
       toast({
-        title: club ? "Club Updated" : "Club Created",
+        title: club ? "Club Actualizado" : "Club Creado",
         description: result.message,
       });
       router.push(Routes.ADMIN_CLUBS);
     } else {
       toast({
         variant: "destructive",
-        title: "Operation Failed",
-        description: result.message || "An unexpected error occurred.",
+        title: "Operación Fallida",
+        description: result.message || "Ocurrió un error inesperado.",
       });
-      if(result.errors) console.log(result.errors); // For debugging form errors
+      if(result.errors) console.log(result.errors); 
     }
   }
   
@@ -106,8 +106,8 @@ export function ClubForm({ club }: ClubFormProps) {
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
         <Card>
           <CardHeader>
-            <CardTitle>Club Details</CardTitle>
-            <CardDescription>Provide the main information for the club.</CardDescription>
+            <CardTitle>Detalles del Club</CardTitle>
+            <CardDescription>Proporciona la información principal del club.</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <FormField
@@ -115,9 +115,9 @@ export function ClubForm({ club }: ClubFormProps) {
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Club Name</FormLabel>
+                  <FormLabel>Nombre del Club</FormLabel>
                   <FormControl>
-                    <Input placeholder="e.g., Photography Club" {...field} />
+                    <Input placeholder="ej., Club de Fotografía" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -128,9 +128,9 @@ export function ClubForm({ club }: ClubFormProps) {
               name="description"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Description</FormLabel>
+                  <FormLabel>Descripción</FormLabel>
                   <FormControl>
-                    <Textarea placeholder="A brief description of the club's activities and goals." {...field} rows={4} />
+                    <Textarea placeholder="Una breve descripción de las actividades y objetivos del club." {...field} rows={4} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -141,11 +141,11 @@ export function ClubForm({ club }: ClubFormProps) {
               name="categoryIcon"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Category Icon (Lucide Name)</FormLabel>
+                  <FormLabel>Icono de Categoría (Nombre de Lucide)</FormLabel>
                   <Select onValueChange={field.onChange} defaultValue={field.value}>
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue placeholder="Select an icon" />
+                        <SelectValue placeholder="Selecciona un icono" />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
@@ -154,7 +154,7 @@ export function ClubForm({ club }: ClubFormProps) {
                       ))}
                     </SelectContent>
                   </Select>
-                  <FormDescription>Choose an icon that represents the club.</FormDescription>
+                  <FormDescription>Elige un icono que represente al club.</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -166,7 +166,7 @@ export function ClubForm({ club }: ClubFormProps) {
 
         <Button type="submit" disabled={isSubmitting} className="w-full md:w-auto">
           {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-          <Save className="mr-2 h-4 w-4" /> {club ? "Save Changes" : "Create Club"}
+          <Save className="mr-2 h-4 w-4" /> {club ? "Guardar Cambios" : "Crear Club"}
         </Button>
          {form.formState.errors.timeSlots && typeof form.formState.errors.timeSlots === 'object' && 'message' in form.formState.errors.timeSlots && (
             <p className="text-sm font-medium text-destructive">{(form.formState.errors.timeSlots as any).message}</p>

@@ -17,12 +17,10 @@ interface NavItem {
 }
 
 const navItems: NavItem[] = [
-  { href: Routes.STUDENT_DASHBOARD, label: "Clubs", icon: Home, roles: ['student'] },
-  // Student sign up is usually part of club interaction, not a direct nav link.
-  // { href: Routes.STUDENT_SIGNUP_BASE, label: "Sign Up", icon: UserPlus, roles: ['student'] }, // Example if needed
-  { href: Routes.ADMIN_DASHBOARD, label: "Overview", icon: ShieldCheck, roles: ['admin'] },
-  { href: Routes.ADMIN_CLUBS, label: "Manage Clubs", icon: Settings, roles: ['admin'] },
-  { href: Routes.ADMIN_ENROLLMENTS, label: "Enrollments", icon: ScrollText, roles: ['admin'] },
+  { href: Routes.STUDENT_DASHBOARD, label: "Clubes", icon: Home, roles: ['student'] },
+  { href: Routes.ADMIN_DASHBOARD, label: "Resumen", icon: ShieldCheck, roles: ['admin'] },
+  { href: Routes.ADMIN_CLUBS, label: "Gestionar Clubes", icon: Settings, roles: ['admin'] },
+  { href: Routes.ADMIN_ENROLLMENTS, label: "Inscripciones", icon: ScrollText, roles: ['admin'] },
 ];
 
 export function Navbar() {
@@ -67,11 +65,11 @@ export function Navbar() {
           </div>
           <div className="flex items-center">
             <span className="text-sm text-muted-foreground mr-3 hidden sm:inline">
-              Hi, {user.name} ({user.role})
+              Hola, {user.name} ({user.role === 'student' ? 'Estudiante' : 'Admin'})
             </span>
             <Button variant="ghost" size="sm" onClick={handleLogout}>
               <LogOut className="h-4 w-4 mr-1.5" />
-              Logout
+              Cerrar Sesión
             </Button>
           </div>
         </div>

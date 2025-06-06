@@ -21,9 +21,9 @@ import { Loader2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 const loginFormSchema = z.object({
-  username: z.string().min(3, { message: "Username must be at least 3 characters." }),
-  password: z.string().min(6, { message: "Password must be at least 6 characters." }), // Password is for UI realism, not actually used in mock
-  role: z.enum(["student", "admin"], { required_error: "You must select a role." }),
+  username: z.string().min(3, { message: "El nombre de usuario debe tener al menos 3 caracteres." }),
+  password: z.string().min(6, { message: "La contraseña debe tener al menos 6 caracteres." }), // Password is for UI realism, not actually used in mock
+  role: z.enum(["student", "admin"], { required_error: "Debes seleccionar un rol." }),
 });
 
 type LoginFormValues = z.infer<typeof loginFormSchema>;
@@ -48,14 +48,14 @@ export function LoginForm() {
       // In mock, password is not checked. username and role are key.
       await login(data.username, data.role as UserRole);
       toast({
-        title: "Login Successful",
-        description: `Welcome, ${data.username}! Redirecting...`,
+        title: "Inicio de Sesión Exitoso",
+        description: `¡Bienvenido, ${data.username}! Redirigiendo...`,
       });
     } catch (error) {
       toast({
         variant: "destructive",
-        title: "Login Failed",
-        description: (error as Error).message || "Invalid username or password for the selected role.",
+        title: "Fallo en el Inicio de Sesión",
+        description: (error as Error).message || "Nombre de usuario o contraseña inválidos para el rol seleccionado.",
       });
       setIsLoading(false);
     }
@@ -70,9 +70,9 @@ export function LoginForm() {
           name="username"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Username</FormLabel>
+              <FormLabel>Nombre de Usuario</FormLabel>
               <FormControl>
-                <Input placeholder="e.g., student123 or adminuser" {...field} />
+                <Input placeholder="ej., estudiante123 o adminuser" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -83,7 +83,7 @@ export function LoginForm() {
           name="password"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Password</FormLabel>
+              <FormLabel>Contraseña</FormLabel>
               <FormControl>
                 <Input type="password" placeholder="••••••••" {...field} />
               </FormControl>
@@ -96,7 +96,7 @@ export function LoginForm() {
           name="role"
           render={({ field }) => (
             <FormItem className="space-y-3">
-              <FormLabel>Login as</FormLabel>
+              <FormLabel>Iniciar sesión como</FormLabel>
               <FormControl>
                 <RadioGroup
                   onValueChange={field.onChange}
@@ -107,13 +107,13 @@ export function LoginForm() {
                     <FormControl>
                       <RadioGroupItem value="student" />
                     </FormControl>
-                    <FormLabel className="font-normal">Student</FormLabel>
+                    <FormLabel className="font-normal">Estudiante</FormLabel>
                   </FormItem>
                   <FormItem className="flex items-center space-x-3 space-y-0">
                     <FormControl>
                       <RadioGroupItem value="admin" />
                     </FormControl>
-                    <FormLabel className="font-normal">School Services</FormLabel>
+                    <FormLabel className="font-normal">Servicios Escolares</FormLabel>
                   </FormItem>
                 </RadioGroup>
               </FormControl>
@@ -123,7 +123,7 @@ export function LoginForm() {
         />
         <Button type="submit" className="w-full" disabled={isLoading}>
           {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-          Login
+          Iniciar Sesión
         </Button>
       </form>
     </Form>

@@ -16,13 +16,13 @@ export default async function ClubSignUpPage({ params }: ClubSignUpPageProps) {
   if (!club) {
     return (
       <div className="container mx-auto py-8">
-        <PageTitle title="Club Not Found" icon={AlertTriangle} />
+        <PageTitle title="Club No Encontrado" icon={AlertTriangle} />
         <Card>
           <CardHeader>
             <CardTitle>Error</CardTitle>
           </CardHeader>
           <CardContent>
-            <p>The club you are trying to sign up for could not be found. It might have been removed or the link is incorrect.</p>
+            <p>El club para el que intentas inscribirte no pudo ser encontrado. Puede haber sido eliminado o el enlace es incorrecto.</p>
           </CardContent>
         </Card>
       </div>
