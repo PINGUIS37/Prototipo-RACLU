@@ -4,7 +4,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { AuthProvider } from '@/hooks/use-auth'; // AuthProvider will be created
 
 export const metadata: Metadata = {
-  title: 'ClubConecta',
+  title: 'RACLU',
   description: 'Plataforma de Inscripción a Clubes Universitarios',
 };
 

@@ -16,8 +16,8 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 // Mock user data - in a real app, this would come from your auth provider / database
 const MOCK_USERS: Record<string, User> = {
-  student123: { id: 'std1', username: 'student123', name: 'Juan Pérez', role: 'student', matricula: '12345', group: 'CS101' },
-  adminuser: { id: 'adm1', username: 'adminuser', name: 'Ana López', role: 'admin' },
+  student123: { id: 'std1', username: 'juanito', name: 'Juan Pérez', role: 'student', matricula: '12345', group: 'CS101' },
+  adminuser: { id: 'adm1', username: 'admin', name: 'Ana López', role: 'admin' },
 };
 
 

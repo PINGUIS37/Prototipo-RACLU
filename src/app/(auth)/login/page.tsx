@@ -35,8 +35,8 @@ export default function LoginPage() {
       </div>
       <Card className="w-full max-w-md shadow-xl">
         <CardHeader className="text-center">
-          <CardTitle className="text-2xl font-headline">¡Bienvenido de Nuevo!</CardTitle>
-          <CardDescription>Inicia sesión para acceder a las inscripciones de clubes.</CardDescription>
+          <CardTitle className="text-2xl font-headline">¡Bienvenido a RACLU!</CardTitle>
+          <CardDescription>Un lugar donde los alumnos pueden inscribirse a los clubs de manera más sencilla.</CardDescription>
         </CardHeader>
         <CardContent>
           <LoginForm />

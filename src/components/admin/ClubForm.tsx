@@ -26,7 +26,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from ".
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../ui/card";
 import { TimeSlotManager } from "./TimeSlotManager"; // Import the new component
 
-const IconOptions = ["Puzzle", "Mic", "Paintbrush", "Code", "Users", "BarChart", "Music", "BookOpen", "Film", "Cpu", "Gamepad2", "Trophy"];
+const IconOptions = ["Rompecabezas", "Microfono", "Brocha", "Codigo", "Usuario", "Gráfico de barras", "Musica", "Libro abierto", "Pelicula", "Computadora", "Mando de juego", "Trofeo"];
 
 
 const TimeSlotSchema = z.object({

@@ -18,12 +18,13 @@ export default async function AdminDashboardPage() {
     <div>
       <PageTitle title="Panel de Administración" icon={ShieldCheck} />
       <p className="mb-6 text-muted-foreground">
-        Bienvenido al Panel de Administración de Clubes. Gestiona clubes, visualiza inscripciones y supervisa las actividades de los clubes universitarios.
+        Bienvenido al Panel de Administración de Clubes.
       </p>
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 mb-8">
+        <div></div>
         <Card className="shadow-lg">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Clubes Totales</CardTitle>
+            <CardTitle className="text-sm font-large">Clubes Totales</CardTitle>
             <Settings className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
@@ -31,26 +32,7 @@ export default async function AdminDashboardPage() {
             <p className="text-xs text-muted-foreground">Clubes actualmente activos</p>
           </CardContent>
         </Card>
-        <Card className="shadow-lg">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Inscripciones Totales</CardTitle>
-            <Users className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{totalEnrollments}</div>
-            <p className="text-xs text-muted-foreground">En todos los clubes</p>
-          </CardContent>
-        </Card>
-        <Card className="shadow-lg">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Prom. Inscripción/Club</CardTitle>
-            <Users className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{averageEnrollmentPerClub}</div>
-            <p className="text-xs text-muted-foreground">Promedio de miembros por club</p>
-          </CardContent>
-        </Card>
+        <div></div>
       </div>
 
       <div className="grid gap-6 md:grid-cols-1 lg:grid-cols-2">

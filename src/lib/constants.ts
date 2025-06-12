@@ -1,4 +1,4 @@
-export const APP_NAME = "ClubConecta";
+export const APP_NAME = "RACLU";
 
 export const Routes = {
   HOME: "/",
